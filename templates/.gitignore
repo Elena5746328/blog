@@ -1,0 +1,11 @@
+.venv
+.venv/
+/.venv
+
+__pucache__
+/__pucache__
+__pucache__/
+
+db.sqlite3
+
+config/__pucache__
