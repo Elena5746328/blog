@@ -40,7 +40,7 @@ class LoginView(View):
         return redirect("/")
 
 class ReqisterView(View):
-    template_name = "users/reqister.html"
+    template_name = "users/register.html"
 
     def get(self, request):
             return render(
