@@ -4,78 +4,49 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.views import View
 
-from .forms import ReqisterForm
+from .forms import RegistrationForm
+
 
 class LoginView(View):
-    template_name = "users/login.html"
+    template_name= 'users/login.html'
 
     def get(self, request):
-        return render(
-            request,
-            self.template_name, 
-            {
-                "username_value": "",
-                "errors": {},
-                "non_field_errors": []
-            }
-        )
+        return render(request, self.template_name,
+                      {'username_value': '', 'errors': {}, 'non_field_errors': []})
 
     def post(self, request):
         form = AuthenticationForm(request, data=request.POST)
 
         if not form.is_valid():
-            return render(
-                request,
-                self.template_name, 
-                {
-                    "username_value": request.POST.get("username", "").strip(),
-                    "errors": form.errors,
-                    "non_field_errors": form.non_field_errors()
-                }
-            )
-
+            return render(request, self.template_name,
+                      {'username_value': request.POST.get('username', '').strip(), 'errors': form.errors, 'non_field_errors': form.non_field_errors()})
         
         login(request, form.get_user())
-        messages.success(request, "Вход выполнен")
-        return redirect("/")
+        messages.success(request, 'Вход выполнен.')
+        return redirect('/')
 
-class ReqisterView(View):
-    template_name = "users/register.html"
 
+class RegisterView(View):
+    template_name = 'users/register.html'
     def get(self, request):
-            return render(
-                request,
-                self.template_name, 
-                {
-                    "username_value": "",
-                    "email_value": "",
-                    "errors": {},
-                    "non_field_errors": []
-                }
-            )
+        return render(request, self.template_name,
+                      {'username_value': '', 'email_value':'', 'errors': {}, 'non_field_errors': []})
+    
 
     def post(self, request):
-        form = ReqisterForm(request, POST)
+        form = RegistrationForm(request.POST)
 
         if not form.is_valid():
-            return render(
-                request,
-                self.template_name, 
-                {
-                    "username_value": request.POST.get("username", "").strip(),
-                    "email_value": request.POST.get("email", "").strip(),
-                    "errors": form.errors,
-                    "non_field_errors": form.non_field_errors
-                }
-            )
+            return render(request, self.template_name, {
+                'username_value': request.POST.get('username', '').strip(),
+                'email_value': request.POST.get('email', '').strip(), 
+                'errors': form.errors,
+                'non_field_errors': form.non_field_errors})
 
         user = form.save()
+
         login(request, user)
-        messages.success(request, "Регистрация выполнена")
-        return redirect("/")
+        messages.success(request, 'Регистрация выполнена.')
+        return redirect('/')
 
-
-
-
-
-
+# Create your views here.
