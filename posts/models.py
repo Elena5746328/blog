@@ -23,8 +23,8 @@ class Post(models.Model):
         return reverse('post_detail', kwargs={'pk': self.pk})
     
 class Comment(models.Model):
-    post = models.ForeignKey(Post, verbose_name='пост', on_delete=models.CASCADE)
-    author = models.ForeignKey(user, verbose_name='автор', on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, verbose_name='пост', on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(user, verbose_name='автор', on_delete=models.CASCADE, related_name="comments" )
     text = models.TextField('Текст комментария')
     created_at = models.DateTimeField('дата создания', auto_now_add=True)
 
