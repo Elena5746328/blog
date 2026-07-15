@@ -46,14 +46,14 @@ class PostDetailView(DetailView):
         comment_text = request.POST.get('text', '').strip()
 
         if comment_text:
-            Comment.objects.create(
+            a = Comment.objects.create(
                 post=self.object,
                 author=request.user,
                 text=comment_text
             )
-
+            print(self.object.comments)
             return redirect(self.object)
-        
+        print(123)
         context = self.get_context_data(object=self.object)
         context['comment_text'] = comment_text
         context['comment_error'] = 'Введите текст комментария'
